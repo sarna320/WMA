@@ -36,7 +36,7 @@ url=["https://github.com/sarna320/WMA/blob/master/mix.jpg?raw=true",
      "https://github.com/sarna320/WMA/blob/master/mix2.jpg?raw=true",
      "https://github.com/sarna320/WMA/blob/master/srebne.jpg?raw=true"]
 
-#wgranie zdjecia
+#wgranie zdjeciaa
 url_response = urllib.request.urlopen(url[0])
 
 #przekonwertowanie zdjecia do formatu odowiedniego dla opencv
