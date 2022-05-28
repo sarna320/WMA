@@ -15,6 +15,9 @@ def zwrocObrazGithub(i):
     # przekonwertowanie zdjecia do formatu odowiedniego dla opencv
     obraz = cv2.imdecode(np.array(bytearray(url_response.read()), dtype=np.uint8), -1)
 
+    # zmniejszenie
+    obraz = cv2.pyrDown(obraz)
+
     return obraz
 
 #funckja do drukowania obrazu
@@ -54,9 +57,6 @@ def wszyskieNominaly(obraz):
 
 
 obraz=zwrocObrazGithub(0)
-
-#zmniejszenie
-obraz = cv2.pyrDown(obraz)
 
 wszystkie=wszyskieNominaly(obraz)
 
