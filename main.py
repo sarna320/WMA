@@ -2,15 +2,30 @@ import cv2
 import numpy as np
 import urllib.request
 
+#funckja zwraca obraz mozliwy do przetwarzania przez opencv, ktory zostal pobrany z githuba
+def zwrocObrazGithub(i):
+    # url zdjec z githuba
+    url = ["https://github.com/sarna320/WMA/blob/master/mix.jpg?raw=true",
+           "https://github.com/sarna320/WMA/blob/master/mix2.jpg?raw=true",
+           "https://github.com/sarna320/WMA/blob/master/srebne.jpg?raw=true"]
+
+    # wgranie zdjeciaa
+    url_response = urllib.request.urlopen(url[i])
+
+    # przekonwertowanie zdjecia do formatu odowiedniego dla opencv
+    obraz = cv2.imdecode(np.array(bytearray(url_response.read()), dtype=np.uint8), -1)
+
+    return obraz
+
 #funckja do drukowania obrazu
-def drukuj(obraz):
+def drukujObraz(obraz):
     # pokazanie obrazu
     cv2.imshow("1", obraz)
     cv2.waitKey()
     cv2.destroyAllWindows()
 
 #funckja zwraca obraz z wszystkimi wykrytymi nominalami na zdjecie, gdzi tlo zamieniane jest na czarny kolor
-def wszyskie(obraz):
+def wszyskieNominaly(obraz):
     # konwersja na skale szarosci
     gray = cv2.cvtColor(obraz, cv2.COLOR_BGR2GRAY)
 
@@ -37,30 +52,13 @@ def wszyskie(obraz):
     img_copy[mask!=255]=0
     return img_copy
 
-def wgrajObraz():
-    # wgranie zdjeciaa
-    url_response = urllib.request.urlopen(url[0])
 
-    # przekonwertowanie zdjecia do formatu odowiedniego dla opencv
-    obraz = cv2.imdecode(np.array(bytearray(url_response.read()), dtype=np.uint8), -1)
-
-    return  obraz
-
-#url zdjec z githuba
-url=["https://github.com/sarna320/WMA/blob/master/mix.jpg?raw=true",
-     "https://github.com/sarna320/WMA/blob/master/mix2.jpg?raw=true",
-     "https://github.com/sarna320/WMA/blob/master/srebne.jpg?raw=true"]
-
-#wgranie zdjeciaa
-url_response = urllib.request.urlopen(url[0])
-
-#przekonwertowanie zdjecia do formatu odowiedniego dla opencv
-obraz = cv2.imdecode(np.array(bytearray(url_response.read()), dtype=np.uint8), -1)
+obraz=zwrocObrazGithub(0)
 
 #zmniejszenie
 obraz = cv2.pyrDown(obraz)
 
-wszystkie=wszyskie(obraz)
+wszystkie=wszyskieNominaly(obraz)
 
 #wartosci do maski dla zlotcyh monet odczytane mniejwiecej w wykresu i dobrane eksperymentalnie
 zloty=(0,70,0)
@@ -92,7 +90,7 @@ for i in circles_zloty[0,:]:
 obraz_srebny = wszystkie.copy()
 obraz_srebny[maska_zlota==255] = 0
 
-drukuj(wszystkie)
+drukujObraz(wszystkie)
 
 
 
